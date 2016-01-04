@@ -1,0 +1,67 @@
+<center>
+  <%= form_for @account, url: { :action => 'create' }, :validate => true do |a| %>
+    <h2><%= flash[:notice] %></h2>
+    <h3>Contestant</h3>
+    <b>Name:</b><br>
+    First:
+    <%= a.text_field :first_name, value: @account.try(:first_name) %>
+    Last:
+    <%= a.text_field :last_name, value: @account.try(:last_name) %><p>
+    <b>Sex:</b></br>
+    Male <%= a.radio_button :gender, 'M', checked: (@account.try(:gender) == 'M') %> 
+    Female <%= a.radio_button :gender, 'F', checked: (@account.try(:gender) == 'F') %><p>
+    <b>Birth Date:</b>
+    <%= a.date_field :birth_date, value: @account.try(:birth_date) %><p>
+    <b>City:</b>
+    <%= a.text_field :city, value: @account.try(:city) %>
+    <b>State:</b>
+    <%= a.select :state, options_for_select(us_states, @account.try(:state) || ['California', 'CA']) %><p>
+    <b>Phone:</b>
+    <%= a.telephone_field :phone, value: @account.try(:phone) %><p>
+    <b>School:</b>
+    <%= a.text_field :school, value: @account.try(:school) %><p>
+    <b>Hobbies:</b>
+    <%= a.text_field :hobby, value: @account.try(:hobby) %><p>
+    <hr>
+    <h3>Video</h3>
+    <%= %Q{<iframe width="560" height="315" src="https://www.youtube.com/embed/#{@account.video_embed_url}" frameborder="0" allowfullscreen id="embedded_video"></iframe>}.html_safe %><br>
+    <h4>YouTube Embed Key</h4>
+    <%= a.text_field :video_embed_url, 
+      onchange: 'update_src("embedded_video", "https://www.youtube.com/embed/" + this.value)',
+      onkeyup: 'update_src("embedded_video", "https://www.youtube.com/embed/" + this.value)',
+      value: @account.try(:video_embed_url) %><p>
+    <hr>
+    <%= fields_for @payment_info do |p| %>
+      <h3>Payment</h3>
+      <h4>Billing Information</h4>
+      <b>Name:</b><br>
+      First:
+      <%= p.text_field :first_name, value: @payment_info.try(:first_name) %>
+      Last:
+      <%= p.text_field :last_name, value: @payment_info.try(:last_name) %><p>
+      <b>Address:</b>
+      <%= p.text_field :address, placeholder: '123 Jump Street', value: @payment_info.try(:address) %><p>
+      <b>City:</b>
+      <%= p.text_field :city, value: @payment_info.try(:city) %>
+      <b>State:</b>
+      <%= p.select :state, options_for_select(us_states, @payment_info.try(:state) || ['California', 'CA']) %><p>
+      <b>Zip:</b>
+      <%= p.text_field :zip, value: @payment_info.try(:zip) %>
+      <h4>Card Information</h4>
+      <b>Type:</b>
+      <%= p.select :type, options_for_select([['Visa', 'visa'],['MasterCard', 'mastercard'],['Discover', 'discover'],['American Express', 'amex']],
+                                             @payment_info.try(:type) || ['Visa', 'visa']) %><p>
+      <b>Number:</b>
+      <%= p.text_field :number, placeholder: 'XXXXXXXXXXXXXXXX', value: @payment_info.try(:number) %><p>
+      <b>Expiration:</b>
+      <%= p.number_field :expire_month, in: 1..12, placeholder: 'MM', value: @payment_info.try(:expire_month) %>
+      <%= p.number_field :expire_year, in: Date.today.year..2100, placeholder: 'YYYY', value: @payment_info.try(:expire_year) %><p>
+      <b>CVV2</b>
+      <%= p.number_field :cvv2, in: 0..999, placeholder: 'XXX', value: @payment_info.try(:cvv2) %><p>
+    <% end %>
+    <hr>
+    I agree to some shit
+    <%= check_box :eula, :agreement %><p>
+    <%= button_to "Register", accounts_path %>
+<% end %>
+</center>

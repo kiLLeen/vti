@@ -8,7 +8,7 @@ class PaymentInfoTest < ActiveSupport::TestCase
 
   test 'created payment id should be selectable' do
     payment = PaymentInfo.new({ payment_id: "Test123" })
-    payment.save(Account.new)
+    payment.save_with_account(Account.new)
     payments = PaymentInfo.where(payment_id: "Test123")
 
     assert_not payments.empty?
@@ -22,17 +22,9 @@ class PaymentInfoTest < ActiveSupport::TestCase
 
   test 'payment_infos should save with an account_id' do
     payment_info = PaymentInfo.new
-    payment_info.save(Account.new)
+    payment_info.save_with_account(Account.new)
 
     assert_not_nil payment_info.account_id
     assert Account.find(payment_info.account_id)
-  end
-
-  test 'payment_infos should always have an account' do
-    payment_info = PaymentInfo.new
-
-    assert_raise ArgumentError do
-      payment_info.save
-    end
   end
 end

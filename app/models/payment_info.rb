@@ -6,11 +6,11 @@ class PaymentInfo < ActiveRecord::Base
   belongs_to :account
   validates_associated :account
 
-  def save(account)
+  def save_with_account(account)
     PaymentInfo.transaction do
-      account.save!
+      account.save
       self.account_id = account.id
-      self.save!
+      self.save
     end
   end
 end

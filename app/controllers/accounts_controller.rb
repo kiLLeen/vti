@@ -3,18 +3,37 @@ require 'paypal-sdk-rest'
 class AccountsController < ApplicationController
   include PayPal::SDK::REST
 
-  def index
+  def new
+    @account = Account.new
+    @payment_info = PaymentInfo.new
+
+    render :index
   end
 
   def show
+    render json: Account.find(params[:id])
+  end
+
+  def index
+    @account ||= Account.new
+    @payment_info ||= PaymentInfo.new
   end
 
   def create
-    @account = Account.new(account_params)
-    @payment_info = PaymentInfo.new(payment_info_params)
+    @account ||= Account.new(account_params)
+    @payment_info ||= PaymentInfo.new(payment_info_params)
 
-    p params[:account].inspect
-    p params[:payment_info].inspect
+    if register
+      redirect_to :accounts, notice: flash[:notice]
+    else
+      render :index
+    end
+
+  end
+
+  private
+
+  def register
     PayPal::SDK::Core::Config.load('config/paypal.yml',  ENV['RACK_ENV'] || 'development')
 
     @payment = Payment.new({
@@ -49,17 +68,16 @@ class AccountsController < ApplicationController
                       :currency => "USD" },
                       :description => "Valley Teen Idol Registration" }]})
 
-    if @payment.create
-      @payment_info.save @account
-      redirect_to :back, notice: "You have been submitted as a contestant to Valley Teen Idol"
+    paypal_transaction = @payment.create
+    if paypal_transaction
+      @payment_info.save_with_account @account
+      flash[:notice] = "Congratulations, you have been submitted as a contestant to Valley Teen Idol".html_safe
     else
-      @payment.error
-      redirect_to :back, notice: "Credit card information not accepted by paypal"
+      flash[:notice] = "Credit card information was not accepted by Paypal: <p><h5> #{@payment.error[:details]} </h5>".html_safe
     end
 
+    paypal_transaction
   end
-
-  private
 
   def account_params
     params.require(:account).permit(:first_name, :last_name, :gender,
@@ -72,6 +90,6 @@ class AccountsController < ApplicationController
     params.require(:payment_info).permit(:type, :number, :expire_month,
                                          :expire_year, :cvv2, :first_name,
                                          :last_name, :address, :city,
-                                         :state, :zip )
+                                         :state, :zip)
   end
 end
