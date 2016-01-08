@@ -1,67 +1,91 @@
 <center>
+  <%= image_tag "vti_2016.jpg" %>
   <%= form_for @account, url: { :action => 'create' }, :validate => true do |a| %>
     <h2><%= flash[:notice] %></h2>
     <h3>Contestant</h3>
     <b>Name:</b><br>
     First:
-    <%= a.text_field :first_name, value: @account.try(:first_name) %>
+    <%= a.text_field :first_name, value: @account.try(:first_name), required: true %>
     Last:
-    <%= a.text_field :last_name, value: @account.try(:last_name) %><p>
+    <%= a.text_field :last_name, value: @account.try(:last_name), required: true %><p>
     <b>Sex:</b></br>
-    Male <%= a.radio_button :gender, 'M', checked: (@account.try(:gender) == 'M') %> 
-    Female <%= a.radio_button :gender, 'F', checked: (@account.try(:gender) == 'F') %><p>
+    Male <%= a.radio_button :gender, 'M', checked: (@account.try(:gender) == 'M'), required: true %> 
+    Female <%= a.radio_button :gender, 'F', checked: (@account.try(:gender) == 'F'), required: true %><p>
     <b>Birth Date:</b>
-    <%= a.date_field :birth_date, value: @account.try(:birth_date) %><p>
+    <%= a.date_field :birth_date, value: @account.try(:birth_date), required: true %><p>
     <b>City:</b>
-    <%= a.text_field :city, value: @account.try(:city) %>
+    <%= a.text_field :city, value: @account.try(:city), required: true %>
     <b>State:</b>
-    <%= a.select :state, options_for_select(us_states, @account.try(:state) || ['California', 'CA']) %><p>
+    <%= a.select :state, options_for_select(us_states, @account.try(:state) || ['California', 'CA']), required: true %><p>
+    <b>Email:</b>
+    <%= a.email_field :email, value: @account.try(:email), required: true %><p>
     <b>Phone:</b>
-    <%= a.telephone_field :phone, value: @account.try(:phone) %><p>
+    <%= a.telephone_field :phone, value: @account.try(:phone), required: true %><p>
     <b>School:</b>
-    <%= a.text_field :school, value: @account.try(:school) %><p>
+    <%= a.text_field :school, value: @account.try(:school), required: true %><p>
     <b>Hobbies:</b>
     <%= a.text_field :hobby, value: @account.try(:hobby) %><p>
     <hr>
     <h3>Video</h3>
     <%= %Q{<iframe width="560" height="315" src="https://www.youtube.com/embed/#{@account.video_embed_url}" frameborder="0" allowfullscreen id="embedded_video"></iframe>}.html_safe %><br>
     <h4>YouTube Embed Key</h4>
+    <b>Step 1</b>: Go to <a href="https://www.youtube.com/upload" target="_blank">https://www.youtube.com/upload</a>. Register for a free account if you don't already have one.<br>
+    <b>Step 2</b>: Either drag your video file into the web browser window from your file browser or click on 'Select files to upload' and select your audition video from the proper directory<br>
+    <b>Step 3</b>: Be sure the video is set to be Public and then click Publish<br>
+    <b>Step 4</b>: Copy the embed key to the clipboard ( e.g. for a share link: https://youtu.be/1wXdboYNIFo the embed key is 1wXdboYNIFo )<br>
+    <b>Step 5</b>: Paste the embed key in the below text box and ensure you are able to preview your video above.<br>
     <%= a.text_field :video_embed_url, 
       onchange: 'update_src("embedded_video", "https://www.youtube.com/embed/" + this.value)',
       onkeyup: 'update_src("embedded_video", "https://www.youtube.com/embed/" + this.value)',
-      value: @account.try(:video_embed_url) %><p>
+      value: @account.try(:video_embed_url), required: true %><p>
     <hr>
     <%= fields_for @payment_info do |p| %>
       <h3>Payment</h3>
       <h4>Billing Information</h4>
       <b>Name:</b><br>
       First:
-      <%= p.text_field :first_name, value: @payment_info.try(:first_name) %>
+      <%= p.text_field :first_name, value: @payment_info.try(:first_name), required: true %>
       Last:
-      <%= p.text_field :last_name, value: @payment_info.try(:last_name) %><p>
+      <%= p.text_field :last_name, value: @payment_info.try(:last_name), required: true %><p>
       <b>Address:</b>
-      <%= p.text_field :address, placeholder: '123 Jump Street', value: @payment_info.try(:address) %><p>
+      <%= p.text_field :address, placeholder: '123 Jump Street', value: @payment_info.try(:address), required: true %><p>
       <b>City:</b>
-      <%= p.text_field :city, value: @payment_info.try(:city) %>
+      <%= p.text_field :city, value: @payment_info.try(:city), required: true %>
       <b>State:</b>
-      <%= p.select :state, options_for_select(us_states, @payment_info.try(:state) || ['California', 'CA']) %><p>
+      <%= p.select :state, options_for_select(us_states, @payment_info.try(:state) || ['California', 'CA']), required: true %><p>
       <b>Zip:</b>
-      <%= p.text_field :zip, value: @payment_info.try(:zip) %>
+      <%= p.text_field :zip, value: @payment_info.try(:zip), required: true %>
       <h4>Card Information</h4>
       <b>Type:</b>
       <%= p.select :type, options_for_select([['Visa', 'visa'],['MasterCard', 'mastercard'],['Discover', 'discover'],['American Express', 'amex']],
-                                             @payment_info.try(:type) || ['Visa', 'visa']) %><p>
+                                             @payment_info.try(:type) || ['Visa', 'visa']), required: true %><p>
       <b>Number:</b>
-      <%= p.text_field :number, placeholder: 'XXXXXXXXXXXXXXXX', value: @payment_info.try(:number) %><p>
+      <%= p.text_field :number, placeholder: 'XXXXXXXXXXXXXXXX', value: @payment_info.try(:number), required: true %><p>
       <b>Expiration:</b>
-      <%= p.number_field :expire_month, in: 1..12, placeholder: 'MM', value: @payment_info.try(:expire_month) %>
-      <%= p.number_field :expire_year, in: Date.today.year..2100, placeholder: 'YYYY', value: @payment_info.try(:expire_year) %><p>
+      <%= p.number_field :expire_month, in: 1..12, value: @payment_info.try(:expire_month), required: true %>
+      <%= p.number_field :expire_year, in: Date.today.year..2100, value: @payment_info.try(:expire_year), required: true %><p>
       <b>CVV2</b>
-      <%= p.number_field :cvv2, in: 0..999, placeholder: 'XXX', value: @payment_info.try(:cvv2) %><p>
+      <%= p.number_field :cvv2, in: 0..999, placeholder: 'XXX', value: @payment_info.try(:cvv2), required: true %><p>
     <% end %>
     <hr>
-    I agree to some shit
-    <%= check_box :eula, :agreement %><p>
+    <h3>The above credit card will be charged $25 dollars for registration</h3>
+    <h3>Terms:</h3> I hereby assign and grant to San Ramon Valley Rotary Club and Rotary 
+    International the right and permission to use and publish the 
+    photographs/film/videotapes/ electronic representations and/or sound 
+    recordings made of me or my child at all Rotary of San Ramon Valley
+    activities, and I hereby release the San Ramon Valley Rotary, Rotary 
+    International and/or any other local Rotary Club, the activity coordinators, 
+    and all employees, volunteers, related parties, or other organizations 
+    associated with the activity from any and all liability for any/all such use and
+    publication.
+    I hereby authorize the reproduction, sale, copyright, exhibit,
+    broadcast, electronic storage, and/or distribution of said
+    photographs/film/videotapes/electronic representations and/or sound
+    recordings without limitation at the discretion of the Rotary Clubs involved 
+    and/or Rotary International and I specifically waive any right to any 
+    compensation I may have for any of the foregoing.<p>
+    <%= check_box :eula, :agreement, required: true %>
+    I am 18 years of age or older and I agree to the above terms.<p>
     <%= button_to "Register", accounts_path %>
 <% end %>
 </center>

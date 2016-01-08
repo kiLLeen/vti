@@ -81,7 +81,7 @@ class AccountsController < ApplicationController
 
   def account_params
     params.require(:account).permit(:first_name, :last_name, :gender,
-                                    :birth_date, :city, :state,
+                                    :birth_date, :city, :state, :email,
                                     :school, :hobby, :video_embed_url,
                                     :phone)
   end
