@@ -1,7 +1,7 @@
 <center>
   <%= image_tag "vti_2016.jpg" %>
   <%= form_for @account, url: { :action => 'create' }, :validate => true do |a| %>
-    <h2><%= flash[:notice] %></h2>
+    <h2><%= flash[:notice].html_safe unless flash[:notice].nil? %></h2>
     <h3>Contestant</h3>
     <b>Name:</b><br>
     First:
@@ -33,7 +33,7 @@
     <b>Step 2</b>: Either drag your video file into the web browser window from your file browser or click on 'Select files to upload' and select your audition video from the proper directory<br>
     <b>Step 3</b>: Be sure the video is set to be Public and then click Publish<br>
     <b>Step 4</b>: Copy the embed key to the clipboard ( e.g. for a share link: https://youtu.be/1wXdboYNIFo the embed key is 1wXdboYNIFo )<br>
-    <b>Step 5</b>: Paste the embed key in the below text box and ensure you are able to preview your video above.<br>
+    <b>Step 5</b>: Paste the embed key in the below text box and ensure you are able to preview your video above.<p>
     <%= a.text_field :video_embed_url, 
       onchange: 'update_src("embedded_video", "https://www.youtube.com/embed/" + this.value)',
       onkeyup: 'update_src("embedded_video", "https://www.youtube.com/embed/" + this.value)',
