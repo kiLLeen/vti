@@ -6,26 +6,26 @@
     <h3>Contestant</h3>
     <b>Name:</b><br>
     First:
-    <%= a.text_field :first_name, value: @account.try(:first_name), required: true %>
+    <%= a.text_field :first_name, value: @account.try(:first_name), size: 25, maxlength: 50, required: true %>
     Last:
-    <%= a.text_field :last_name, value: @account.try(:last_name), required: true %><p>
+    <%= a.text_field :last_name, value: @account.try(:last_name), size: 25, maxlength: 50, required: true %><p>
     <b>Gender:</b></br>
     Male <%= a.radio_button :gender, 'M', checked: (@account.try(:gender) == 'M'), required: true %> 
     Female <%= a.radio_button :gender, 'F', checked: (@account.try(:gender) == 'F'), required: true %><p>
     <b>Birth Date:</b>
     <%= a.date_field :birth_date, value: @account.try(:birth_date), required: true %><p>
     <b>City:</b>
-    <%= a.text_field :city, value: @account.try(:city), required: true %>
+    <%= a.text_field :city, value: @account.try(:city), size: 30, maxlength: 50, required: true %>
     <b>State:</b>
     <%= a.select :state, options_for_select(us_states, @account.try(:state) || ['California', 'CA']), required: true %><p>
     <b>Email:</b>
-    <%= a.email_field :email, value: @account.try(:email), required: true %><p>
+    <%= a.email_field :email, value: @account.try(:email), size: 50, maxlength: 50, required: true %><p>
     <b>Phone:</b>
-    <%= a.telephone_field :phone, value: @account.try(:phone), required: true %><p>
+    <%= a.telephone_field :phone, value: @account.try(:phone), size: 17, maxlength: 17, required: true %><p>
     <b>School:</b>
-    <%= a.text_field :school, value: @account.try(:school), required: true %><p>
+    <%= a.text_field :school, value: @account.try(:school), size: 50, maxlength: 50, required: true %><p>
     <b>Hobbies:</b>
-    <%= a.text_field :hobby, value: @account.try(:hobby) %><p>
+    <%= a.text_field :hobby, value: @account.try(:hobby), size: 50, maxlength: 50 %><p>
     <hr>
     <h3>Video</h3>
     <%= %Q{<iframe width="560" height="315" src="https://www.youtube.com/embed/#{@account.video_embed_url}" frameborder="0" allowfullscreen id="embedded_video"></iframe>}.html_safe %><br>
@@ -38,35 +38,35 @@
     <%= a.text_field :video_embed_url, 
       onchange: 'update_src("embedded_video", "https://www.youtube.com/embed/" + this.value)',
       onkeyup: 'update_src("embedded_video", "https://www.youtube.com/embed/" + this.value)',
-      value: @account.try(:video_embed_url), required: true %><p>
+      value: @account.try(:video_embed_url), size: 11, maxlength: 11, required: true %><p>
     <hr>
     <%= fields_for @payment_info do |p| %>
       <h3>Payment</h3>
       <h4>Billing Information</h4>
       <b>Name:</b><br>
       First:
-      <%= p.text_field :first_name, value: @payment_info.try(:first_name), required: true %>
+      <%= p.text_field :first_name, value: @payment_info.try(:first_name), size: 25, maxlength: 50, required: true %>
       Last:
-      <%= p.text_field :last_name, value: @payment_info.try(:last_name), required: true %><p>
+      <%= p.text_field :last_name, value: @payment_info.try(:last_name), size: 25, maxlength: 50, required: true %><p>
       <b>Address:</b>
-      <%= p.text_field :address, placeholder: '123 Jump Street', value: @payment_info.try(:address), required: true %><p>
+      <%= p.text_field :address, placeholder: '123 Jump Street', value: @payment_info.try(:address), size: 50, maxlength: 50, required: true %><p>
       <b>City:</b>
-      <%= p.text_field :city, value: @payment_info.try(:city), required: true %>
+      <%= p.text_field :city, value: @payment_info.try(:city), size: 30, maxlength: 50, required: true %>
       <b>State:</b>
       <%= p.select :state, options_for_select(us_states, @payment_info.try(:state) || ['California', 'CA']), required: true %><p>
       <b>Zip:</b>
-      <%= p.text_field :zip, value: @payment_info.try(:zip), required: true %>
+      <%= p.text_field :zip, value: @payment_info.try(:zip), size: 5, maxlength: 5, required: true %>
       <h4>Card Information</h4>
       <b>Type:</b>
       <%= p.select :type, options_for_select([['Visa', 'visa'],['MasterCard', 'mastercard'],['Discover', 'discover'],['American Express', 'amex']],
                                              @payment_info.try(:type) || ['Visa', 'visa']), required: true %><p>
       <b>Number:</b>
-      <%= p.text_field :number, placeholder: 'XXXXXXXXXXXXXXXX', value: @payment_info.try(:number), required: true %><p>
+      <%= p.text_field :number, placeholder: 'XXXXXXXXXXXXXXXX', value: @payment_info.try(:number), size: 20, maxlength: 16, required: true %><p>
       <b>Expiration:</b>
-      <%= p.number_field :expire_month, in: 1..12, value: @payment_info.try(:expire_month), required: true %>
-      <%= p.number_field :expire_year, in: Date.today.year..2100, value: @payment_info.try(:expire_year), required: true %><p>
-      <b>CVV2</b>
-      <%= p.number_field :cvv2, in: 0..999, placeholder: 'XXX', value: @payment_info.try(:cvv2), required: true %><p>
+      <%= p.number_field :expire_month, in: 1..12, value: @payment_info.try(:expire_month), size: 2, maxlength: 2, required: true %>
+      <%= p.number_field :expire_year, in: Date.today.year..2100, value: @payment_info.try(:expire_year), size: 4, maxlength: 4, required: true %><p>
+      <b>CVV2:</b>
+      <%= p.number_field :cvv2, in: 0..999, placeholder: 'XXX', value: @payment_info.try(:cvv2), size: 3, maxlength: 3, required: true %><p>
     <% end %>
     <hr>
     <h3>The above credit card will be charged $25 for registration</h3>
@@ -78,7 +78,7 @@
     International and/or any other local Rotary Club, the activity coordinators, 
     and all employees, volunteers, related parties, or other organizations 
     associated with the activity from any and all liability for any/all such use and
-    publication.
+    publication.<br>
     I hereby authorize the reproduction, sale, copyright, exhibit,
     broadcast, electronic storage, and/or distribution of said
     photographs/film/videotapes/electronic representations and/or sound
