@@ -1,6 +1,7 @@
 <center>
-  <%= image_tag "vti_2016.jpg" %>
+  <%= image_tag "vti_2016.jpg", width: '390', height: '260' %>
   <%= form_for @account, url: { :action => 'create' }, :validate => true do |a| %>
+    <h1>Registration</h1>
     <h2><%= flash[:notice].html_safe unless flash[:notice].nil? %></h2>
     <h3>Contestant</h3>
     <b>Name:</b><br>
@@ -8,7 +9,7 @@
     <%= a.text_field :first_name, value: @account.try(:first_name), required: true %>
     Last:
     <%= a.text_field :last_name, value: @account.try(:last_name), required: true %><p>
-    <b>Sex:</b></br>
+    <b>Gender:</b></br>
     Male <%= a.radio_button :gender, 'M', checked: (@account.try(:gender) == 'M'), required: true %> 
     Female <%= a.radio_button :gender, 'F', checked: (@account.try(:gender) == 'F'), required: true %><p>
     <b>Birth Date:</b>
