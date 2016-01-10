@@ -28,7 +28,7 @@
     <%= a.text_field :hobby, value: @account.try(:hobby), size: 50, maxlength: 50 %><p>
     <hr>
     <h3>Video</h3>
-    <%= %Q{<iframe width="560" height="315" src="https://www.youtube.com/embed/#{@account.video_embed_url}" frameborder="0" allowfullscreen id="embedded_video"></iframe>}.html_safe %><br>
+    <%= %Q{<iframe width="560" height="315" src="https://www.youtube.com/embed/#{h(@account.video_embed_url)}" frameborder="0" allowfullscreen id="embedded_video"></iframe>}.html_safe %><br>
     <h4>YouTube Embed Key</h4>
     <b>Step 1</b>: Go to <a href="https://www.youtube.com/upload" target="_blank">https://www.youtube.com/upload</a>. Register for a free account if you don't already have one.<br>
     <b>Step 2</b>: Either drag your video file into the web browser window from your file browser or click on 'Select files to upload' and select your audition video from the proper directory<br>
