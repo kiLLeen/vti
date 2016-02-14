@@ -8,6 +8,7 @@ gem 'rails', '4.2.2'
 gem 'rails_12factor'
 
 gem 'pg'
+gem 'sqlite3'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'

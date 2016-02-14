@@ -10,9 +10,6 @@ class AccountsController < ApplicationController
     render :index
   end
 
-  def show
-  end
-
   def index
     @account ||= Account.new
     @payment_info ||= PaymentInfo.new

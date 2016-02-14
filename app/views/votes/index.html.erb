@@ -1,0 +1,10 @@
+<center>
+<%= form_for @vote, url: { :action => 'payment' }, validate: true do |v| %>
+  <% @accounts.each do |a| -%>
+    <%= %Q{<iframe width="560" height="315" src="https://www.youtube.com/embed/#{h(a.try(:video_embed_url))}" frameborder="0" allowfullscreen id="embedded_video"></iframe>}.html_safe %><br>
+    <%= v.radio_button :account_id, a.try(:id), checked: (@vote.try(:account_id).present?) %> <%= a.try(:first_name) %> <%= a.try(:last_name) %><br>
+    <hr>
+  <% end -%>
+  <%= button_to "Vote", votes_path %>
+<% end %>
+</center>

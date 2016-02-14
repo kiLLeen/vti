@@ -40,34 +40,7 @@
       onkeyup: 'update_src("embedded_video", "https://www.youtube.com/embed/" + this.value)',
       value: @account.try(:video_embed_url), size: 11, maxlength: 11, required: true %><p>
     <hr>
-    <%= fields_for @payment_info do |p| %>
-      <h3>Payment</h3>
-      <h4>Billing Information</h4>
-      <b>Name:</b><br>
-      First:
-      <%= p.text_field :first_name, value: @payment_info.try(:first_name), size: 25, maxlength: 50, required: true %>
-      Last:
-      <%= p.text_field :last_name, value: @payment_info.try(:last_name), size: 25, maxlength: 50, required: true %><p>
-      <b>Address:</b>
-      <%= p.text_field :address, placeholder: '123 Jump Street', value: @payment_info.try(:address), size: 50, maxlength: 50, required: true %><p>
-      <b>City:</b>
-      <%= p.text_field :city, value: @payment_info.try(:city), size: 30, maxlength: 50, required: true %>
-      <b>State:</b>
-      <%= p.select :state, options_for_select(us_states, @payment_info.try(:state) || ['California', 'CA']), required: true %><p>
-      <b>Zip:</b>
-      <%= p.text_field :zip, value: @payment_info.try(:zip), size: 5, maxlength: 5, required: true %>
-      <h4>Card Information</h4>
-      <b>Type:</b>
-      <%= p.select :type, options_for_select([['Visa', 'visa'],['MasterCard', 'mastercard'],['Discover', 'discover'],['American Express', 'amex']],
-                                             @payment_info.try(:type) || ['Visa', 'visa']), required: true %><p>
-      <b>Number:</b>
-      <%= p.text_field :number, placeholder: 'XXXXXXXXXXXXXXXX', value: @payment_info.try(:number), size: 20, maxlength: 16, required: true %><p>
-      <b>Expiration:</b>
-      <%= p.number_field :expire_month, in: 1..12, value: @payment_info.try(:expire_month), size: 2, maxlength: 2, required: true %>
-      <%= p.number_field :expire_year, in: Date.today.year..2100, value: @payment_info.try(:expire_year), size: 4, maxlength: 4, required: true %><p>
-      <b>CVV2:</b>
-      <%= p.number_field :cvv2, in: 0..999, placeholder: 'XXX', value: @payment_info.try(:cvv2), size: 3, maxlength: 3, required: true %><p>
-    <% end %>
+    <%= render partial: "shared/payment_info", locals: { payment_info: @payment_info } %>
     <hr>
     <h3>The above credit card will be charged $25 for registration</h3>
     <h3>Terms:</h3> I hereby assign and grant to San Ramon Valley Rotary Club and Rotary 

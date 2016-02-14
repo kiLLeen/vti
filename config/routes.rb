@@ -1,18 +1,33 @@
 Rails.application.routes.draw do
-  resources :accounts, as: 'accounts', only: [:new, :index, :show, :create]
+  controller :accounts do
+    get 'accounts' => :show
+    #registering is disabled now
+    #get 'register' => :new
+    post 'accounts' => :create
+  end
+
+  controller :votes do
+    get 'votes' => :index
+    #registering is disabled now
+    #get 'register' => :new
+    post 'votes' => :payment
+    post 'votes/new' => :create
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
-  root 'accounts#new'
+  root 'votes#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+  #get 'register' => 'accounts#new'
   get 'register' => 'accounts#new'
+  get 'vote' => 'votes#index'
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
