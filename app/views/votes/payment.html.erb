@@ -1,9 +1,0 @@
-<center>
-  <%= form_for @vote, url: { :action => 'create' }, validate: true do |v| %>
-    Please enter your payment information to vote for:<br>
-    <%= @votee.try(:first_name) %> <%= @votee.try(:last_name) %><br>
-    <hr>
-    <%= render partial: "shared/payment_info", locals: { payment_info: @payment_info } %>
-    <%= button_to "Vote", votes_path %>
-  <% end %>
-</center>

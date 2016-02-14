@@ -5,19 +5,19 @@ class AccountsController < ApplicationController
 
   def new
     @account = Account.new
-    @payment_info = PaymentInfo.new
+    @payer = Payer.new
 
     render :index
   end
 
   def index
     @account ||= Account.new
-    @payment_info ||= PaymentInfo.new
+    @payer ||= Payer.new
   end
 
   def create
     @account ||= Account.new(account_params)
-    @payment_info ||= PaymentInfo.new(payment_info_params)
+    @payer ||= Payer.new(payer_params)
 
     if register
       redirect_to :accounts, notice: flash[:notice]
@@ -38,18 +38,18 @@ class AccountsController < ApplicationController
         :payment_method => "credit_card",
         :funding_instruments => [{
           :credit_card => {
-            :type => @payment_info.type,
-            :number => @payment_info.number,
-            :expire_month => @payment_info.expire_month,
-            :expire_year => @payment_info.expire_year,
-            :cvv2 => @payment_info.cvv2,
-            :first_name => @payment_info.first_name,
-            :last_name => @payment_info.last_name,
+            :type => @payer.type,
+            :number => @payer.number,
+            :expire_month => @payer.expire_month,
+            :expire_year => @payer.expire_year,
+            :cvv2 => @payer.cvv2,
+            :first_name => @payer.first_name,
+            :last_name => @payer.last_name,
             :billing_address => {
-              :line1 => @payment_info.address,
-              :city => @payment_info.city,
-              :state => @payment_info.state,
-              :postal_code => @payment_info.zip,
+              :line1 => @payer.address,
+              :city => @payer.city,
+              :state => @payer.state,
+              :postal_code => @payer.zip,
               :country_code => "US" }}}]},
               :transactions => [{
                 :item_list => {
@@ -66,7 +66,7 @@ class AccountsController < ApplicationController
 
     paypal_transaction = @payment.create
     if paypal_transaction
-      @payment_info.save_with_account @account
+      @payer.save_with_account @account
       flash[:notice] = "Congratulations, you have been submitted as a contestant to Valley Teen Idol".html_safe
     else
       flash[:notice] = "Credit card information was not accepted by Paypal: <p><h5> #{@payment.error[:details]} </h5>".html_safe
@@ -82,8 +82,8 @@ class AccountsController < ApplicationController
                                     :phone)
   end
 
-  def payment_info_params
-    params.require(:payment_info).permit(:type, :number, :expire_month,
+  def payer_params
+    params.require(:payer).permit(:type, :number, :expire_month,
                                          :expire_year, :cvv2, :first_name,
                                          :last_name, :address, :city,
                                          :state, :zip)

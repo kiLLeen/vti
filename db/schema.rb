@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160208040052) do
+ActiveRecord::Schema.define(version: 20160214051320) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "first_name"
@@ -27,22 +27,22 @@ ActiveRecord::Schema.define(version: 20160208040052) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.string   "email"
+    t.integer  "payer_id"
   end
 
-  create_table "payment_infos", force: :cascade do |t|
+  create_table "payers", force: :cascade do |t|
     t.string   "first_name"
     t.string   "last_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "account_id"
     t.string   "payment_id"
   end
 
   create_table "votes", force: :cascade do |t|
     t.integer  "account_id"
-    t.integer  "payment_info_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "payer_id"
   end
 
 end
