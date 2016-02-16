@@ -1,3 +1,2 @@
 document.body.scrollTop = document.documentElement.scrollTop = 0;
-$("#notice").html("<%= escape_javascript(render partial: 'shared/flash', locals: { flash: flash } ) %>");
 $("#vote_form").html("<%= escape_javascript(render partial: 'vote_form', locals: { vote: @vote, accounts: @accounts, votee: @vote.account, payer: @vote.payer } ) %>");

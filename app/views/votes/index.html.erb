@@ -1,7 +1,8 @@
 <center>
-  <%= form_for @vote, url: { action: 'create' }, validate: true, remote: true do |v| %>
+    <div id="notice">
+      <%= render partial: 'shared/flash', locals: { flash: flash } %>
+    </div>
     <div id="vote_form">
       <%= render partial: 'vote_form', locals: { vote: @vote, accounts: @accounts, votee: @vote.account, payer: @vote.payer } %>
     </div>
-  <% end %>
 </center>

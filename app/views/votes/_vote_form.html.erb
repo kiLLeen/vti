@@ -1,11 +1,20 @@
-<%# byebug %>
-<% if vote.try(:account).nil? %>
-  <%= render partial: "votes", locals: { vote: vote, accounts: accounts } %>
-  <%= button_to "vote", { action: 'create' }, remote: true %>
+<% if votee.nil? %>
+  <%= form_for vote, remote: true do |v| %>
+    <%= render partial: "votes", locals: { vote: vote, accounts: accounts } %>
+    <%= v.submit "Vote" %>
+  <% end %>
 <% else %>
-  Please enter your payment information to vote for:<br>
-  <%# byebug %>
-  <%= votee.try(:first_name) %> <%= votee.try(:last_name) %><br>
-  <%= render partial: "shared/payer", locals: { payer: payer } %>
-  <%= button_to "back", method: :get, action: 'index', validate: false, remote: true %>
+  <%= form_for vote, url: { action: :pay, controller: :votes }, remote: true do |v| %>
+    <%= render partial: "shared/payer", locals: { payer: payer } %>
+    You are voting for:<br>
+    <%= votee.try(:first_name) %> <%= votee.try(:last_name) %><p>
+    <b>Quantity ($1 per vote):</b>
+    <%= fields_for vote do |vo| %>
+      <%= vo.hidden_field :account_id, value: votee.id %><br>
+      <%= vo.number_field :quantity, value: vote.try(:quantity) || 1, in: 1..999999 %><p>
+    <% end %>
+    <%= submit_tag "Vote", data: { disable_with: "Processing..." } %>
+  <% end %>
+
+  <button action="/votes" data-remote="true" method="get">Back</button>
 <% end %>
