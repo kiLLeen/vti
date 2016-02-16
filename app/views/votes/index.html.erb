@@ -1,8 +1,9 @@
 <center>
-    <div id="notice">
-      <%= render partial: 'shared/flash', locals: { flash: flash } %>
-    </div>
-    <div id="vote_form">
-      <%= render partial: 'vote_form', locals: { vote: @vote, accounts: @accounts, votee: @vote.account, payer: @vote.payer } %>
-    </div>
+  <%= image_tag "vti_2016_T.png", width: '390', height: '260' %>
+  <div id="notice">
+    <%= render partial: 'shared/flash', locals: { flash: flash } %>
+  </div>
+  <div id="vote_form">
+    <%= render partial: 'vote_form', locals: { vote: @vote, accounts: @accounts, votee: @vote.account, payer: @vote.payer } %>
+  </div>
 </center>

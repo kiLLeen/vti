@@ -6,7 +6,7 @@
 <% else %>
   <%= form_for vote, url: { action: :pay, controller: :votes }, remote: true do |v| %>
     <%= render partial: "shared/payer", locals: { payer: payer } %>
-    You are voting for:<br>
+    <b>You are voting for:</b><br>
     <%= votee.try(:first_name) %> <%= votee.try(:last_name) %><p>
     <b>Quantity ($1 per vote):</b>
     <%= fields_for vote do |vo| %>
@@ -15,6 +15,5 @@
     <% end %>
     <%= submit_tag "Vote", data: { disable_with: "Processing..." } %>
   <% end %>
-
   <button action="/votes" data-remote="true" method="get">Back</button>
 <% end %>
