@@ -3,6 +3,7 @@
   <div id="notice">
     <%= render partial: 'shared/flash', locals: { flash: flash } %>
   </div>
+  <hr>
   <div id="vote_form">
     <%= render partial: 'vote_form', locals: { vote: @vote, accounts: @accounts, votee: @vote.account, payer: @vote.payer } %>
   </div>

@@ -14,3 +14,12 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+var toggleElementVisible = function(radio_button, $element) {
+  if (radio_button.checked) {
+    $element.removeClass('hidden');
+  }
+  if (!radio_button.checked) {
+    $element.addClass('hidden');
+  }
+}
