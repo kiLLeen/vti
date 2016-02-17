@@ -24,5 +24,5 @@
   <%= p.number_field :expire_month, in: 1..12, value: payer.try(:expire_month), size: 2, maxlength: 2, required: true %>
   <%= p.number_field :expire_year, in: Date.today.year..2100, value: payer.try(:expire_year), size: 4, maxlength: 4, required: true %><p>
   <b>CVV2:</b>
-  <%= p.number_field :cvv2, in: 0..999, placeholder: 'XXX', value: payer.try(:cvv2), size: 3, maxlength: 3, required: true %><p>
+  <%= p.number_field :cvv2, in: 0..9999, placeholder: 'XXX', value: payer.try(:cvv2), size: 4, maxlength: 4, required: true %><p>
 <% end %>
