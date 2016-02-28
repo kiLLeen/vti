@@ -7,6 +7,7 @@ class VotesController < ApplicationController
       @accounts ||= Account.all
       @vote = Vote.new
       @vote.payer = Payer.new(payer_params) if payer_params
+      @votes ||= Vote.all
 
       format.html
       format.js

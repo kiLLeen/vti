@@ -1,6 +1,7 @@
 <% if votee.nil? %>
   <%= form_for vote, remote: true do |v| %>
     <%= render partial: "votes", locals: { vote: vote, accounts: accounts } %>
+    <br>
     <%= v.submit "Vote" %>
   <% end %>
 <% else %>

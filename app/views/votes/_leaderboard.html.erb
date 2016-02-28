@@ -1,0 +1,6 @@
+<table>
+  <tr><th> Live Leaderboard </th></tr>
+  <% rank = 0 %> <% top_votes(votes: votes, amount: 10).each do |k,v| -%>
+    <tr><td> <%= rank+=1 %>. <%= k %> </td></tr>
+  <% end %>
+</table>
