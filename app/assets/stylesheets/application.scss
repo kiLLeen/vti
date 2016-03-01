@@ -13,3 +13,35 @@
  *= require_tree .
  *= require_self
  */
+
+a {
+  text-decoration: none;
+}
+
+th {
+  border: 2px solid #3366ff;
+  color: #3366ff;
+}
+
+tr {
+  td {
+    border-bottom: 1px solid #3366ff;
+  }
+  &:last-child {
+    td {
+      border-bottom: none;
+    }
+  }
+}
+
+th, tr {
+  text-align: center;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+table {
+  border-radius: 5px;
+  border: 2px solid #3366ff;
+}
