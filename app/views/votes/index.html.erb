@@ -8,8 +8,9 @@
     <table>
       <tr>
         <td>
-          <% if Time.now < Time.new(2016, 3, 1) %>
-            Competition ends in <%= distance_of_time_in_words(Time.now, Time.new(2016, 3, 1)) %>
+          <% Time.zone = "Pacific Time (US & Canada)" %>
+          <% if Time.zone.now < Time.zone.parse('2016-3-1') %>
+            Competition ends in <%= distance_of_time_in_words(Time.zone.now, Time.zone.parse('2016-3-1')) %>
           <% else %>
             Competition has ended
           <% end %>
