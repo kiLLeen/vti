@@ -5,17 +5,6 @@
   </div>
   <br>
   <div id="vote_form">
-    <table>
-      <tr>
-        <td>
-          <% if Time.now < Time.new(2016, 3, 1) %>
-            Competition ends in <%= distance_of_time_in_words(Time.now, Time.new(2016, 3, 1)) %>
-          <% else %>
-            Competition has ended
-          <% end %>
-        </td>
-      </tr>
-    </table><br>
     <%= render partial: 'leaderboard', locals: { votes: @votes } %><br>
     <%= render partial: 'vote_form', locals: { vote: @vote, accounts: @accounts, votee: @vote.account, payer: @vote.payer } %>
   </div>
