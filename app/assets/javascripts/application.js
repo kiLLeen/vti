@@ -15,11 +15,7 @@
 //= require turbolinks
 //= require_tree .
 
-var toggleElementVisible = function(radio_button, $element) {
-  if (radio_button.checked) {
-    $element.removeClass('hidden');
-  }
-  if (!radio_button.checked) {
-    $element.addClass('hidden');
-  }
+var showVideo = function (element, embed_code) {
+  $(element).replaceWith($('<iframe width="560" height="315" src="https://www.youtube.com/embed/' + embed_code + '" frameborder="0" allowfullscreen id="embedded_video"></iframe><br>'));
 }
+
