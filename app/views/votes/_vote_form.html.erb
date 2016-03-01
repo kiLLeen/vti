@@ -2,7 +2,8 @@
   <%= form_for vote, remote: true do |v| %>
     <%= render partial: "votes", locals: { vote: vote, accounts: accounts } %>
     <br>
-    <%= v.submit "Vote" %>
+    <% Time.zone = "Pacific Time (US & Canada)" %>
+    <%= v.submit "Vote" if Time.zone.now < Time.zone.parse('2016-3-1') %>
   <% end %>
 <% else %>
   <%= form_for vote, url: { action: :pay, controller: :votes }, remote: true do |v| %>

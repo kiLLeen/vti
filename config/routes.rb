@@ -10,8 +10,11 @@ Rails.application.routes.draw do
     get 'votes' => :index
     #registering is disabled now
     #get 'register' => :new
-    post 'votes' => :create
-    post 'votes/pay' => :pay
+    Time.zone = "Pacific Time (US & Canada)"
+    if Time.zone.now < Time.zone.parse('2016-3-1')
+      post 'votes' => :create
+      post 'votes/pay' => :pay
+    end
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
