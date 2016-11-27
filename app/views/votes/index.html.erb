@@ -9,8 +9,14 @@
       <tr>
         <td>
           <% Time.zone = "Pacific Time (US & Canada)" %>
-          <% if Time.zone.now < Time.zone.parse('2016-3-1') %>
-            Competition ends in <%= distance_of_time_in_words(Time.zone.now, Time.zone.parse('2016-3-1')) %>
+          <% if Time.zone.now < Time.zone.parse(VotesController::START_DATE) %>
+            <% if Time.zone.now < Time.zone.parse(AccountsController::END_DATE) %>
+              Registration starts in <%= distance_of_time_in_words(Time.zone.now, Time.zone.parse(AccountsController::START_DATE)) %>
+            <% else %>
+              Competition starts in <%= distance_of_time_in_words(Time.zone.now, Time.zone.parse(VotesController::START_DATE)) %>
+            <% end %>
+          <% elsif Time.zone.now < Time.zone.parse(VotesController::END_DATE) %>
+            Competition ends in <%= distance_of_time_in_words(Time.zone.now, Time.zone.parse(VotesController::END_DATE)) %>
           <% else %>
             Competition has ended
           <% end %>

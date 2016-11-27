@@ -2,15 +2,16 @@ Rails.application.routes.draw do
   controller :accounts do
     get 'accounts' => :show
     get 'register' => :new
-    post 'accounts' => :create
+    Time.zone = "Pacific Time (US & Canada)"
+    if Time.zone.now >= Time.zone.parse(AccountsController::START_DATE) && Time.zone.now < Time.zone.parse(AccountsController::END_DATE)
+      post 'accounts' => :create
+    end
   end
 
   controller :votes do
-    #get 'votes' => :index
-    #registering is disabled now
-    #get 'register' => :new
+    get 'votes' => :index
     Time.zone = "Pacific Time (US & Canada)"
-    if Time.zone.now < Time.zone.parse('2016-3-1')
+    if Time.zone.now >= Time.zone.parse(VotesController::START_DATE) && Time.zone.now < Time.zone.parse(VotesController::END_DATE)
       post 'votes' => :create
       post 'votes/pay' => :pay
     end
@@ -20,7 +21,12 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
-  root 'accounts#new'
+  Time.zone = "Pacific Time (US & Canada)"
+  if Time.zone.now > Time.zone.parse(AccountsController::START_DATE) && Time.zone.now < Time.zone.parse(AccountsController::END_DATE)
+    root 'accounts#new'
+  else
+    root 'votes#index'
+  end
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
@@ -28,7 +34,7 @@ Rails.application.routes.draw do
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
   get 'register' => 'accounts#new'
-  #get 'vote' => 'votes#index'
+  get 'vote' => 'votes#index'
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products

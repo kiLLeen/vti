@@ -1,6 +1,8 @@
 require 'paypal-sdk-rest'
 
 class VotesController < ApplicationController
+  START_DATE = '2017-1-16';
+  END_DATE = '2017-2-10';
 
   def index
     respond_to do |format|
