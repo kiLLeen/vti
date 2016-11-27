@@ -1,7 +1,6 @@
 require 'paypal-sdk-rest'
 
 class AccountsController < ApplicationController
-  include PayPal::SDK::REST
 
   def new
     @account = Account.new
@@ -32,7 +31,7 @@ class AccountsController < ApplicationController
   def register
     PayPal::SDK::Core::Config.load('config/paypal.yml',  ENV['RACK_ENV'] || 'development')
 
-    @payment = Payment.new({
+    @payment = PayPal::SDK::REST::Payment.new({
       :intent => "sale",
       :payer => {
         :payment_method => "credit_card",
@@ -66,7 +65,9 @@ class AccountsController < ApplicationController
 
     paypal_transaction = @payment.create
     if paypal_transaction
-      @payer.save_with_account @account
+      @payer.payment_id = @payment.id
+      @account.payer = @payer
+      @account.save
       flash[:notice] = "Congratulations, you have been submitted as a contestant to Valley Teen Idol".html_safe
     else
       flash[:notice] = "Credit card information was not accepted by Paypal: <p><h5> #{@payment.error[:details]} </h5>".html_safe
