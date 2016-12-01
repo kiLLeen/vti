@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   Time.zone = "Pacific Time (US & Canada)"
-  if Time.zone.now > Time.zone.parse(AccountsController::START_DATE) && Time.zone.now < Time.zone.parse(AccountsController::END_DATE)
+  if Time.zone.now >= Time.zone.parse(AccountsController::START_DATE) && Time.zone.now < Time.zone.parse(AccountsController::END_DATE)
     root 'accounts#new'
   else
     root 'votes#index'
